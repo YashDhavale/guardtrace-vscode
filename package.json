@@ -1,0 +1,111 @@
+{
+  "name": "guardtrace",
+  "displayName": "GuardTrace — Security & Risk Analyzer",
+  "icon": "resources/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YashDhavale/guardtrace-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YashDhavale/guardtrace-vscode/issues"
+  },
+  "homepage": "https://github.com/YashDhavale/guardtrace-vscode#readme",
+  "description": "Real-time detection of SQL injection, hardcoded secrets, weak crypto, command injection, and other security risks as you code.",
+  "version": "0.1.0",
+  "publisher": "YashDhavale",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "security",
+    "sast",
+    "vulnerability",
+    "sql injection",
+    "secrets"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "guardtrace.scanWorkspace",
+        "title": "GuardTrace: Scan Workspace",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "guardtrace.scanFile",
+        "title": "GuardTrace: Scan Current File"
+      },
+      {
+        "command": "guardtrace.generateReport",
+        "title": "GuardTrace: Generate Security Report"
+      },
+      {
+        "command": "guardtrace.ignoreFinding",
+        "title": "GuardTrace: Ignore This Finding"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "guardtrace-sidebar",
+          "title": "GuardTrace",
+          "icon": "resources/shield.svg"
+        }
+      ]
+    },
+    "views": {
+      "guardtrace-sidebar": [
+        {
+          "id": "guardtrace.dashboard",
+          "name": "Security Dashboard"
+        },
+        {
+          "id": "guardtrace.findings",
+          "name": "Findings"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "GuardTrace",
+      "properties": {
+        "guardtrace.enabledRules": {
+          "type": "array",
+          "default": [
+            "sql-injection",
+            "command-injection",
+            "hardcoded-secret",
+            "weak-crypto",
+            "insecure-http",
+            "insecure-deserialization",
+            "path-traversal",
+            "weak-randomness"
+          ],
+          "description": "Rule IDs to run."
+        },
+        "guardtrace.ignoredFindings": {
+          "type": "array",
+          "default": [],
+          "description": "Finding fingerprints to suppress."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./ --outDir dist",
+    "package": "vsce package",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.4.0",
+    "@vscode/vsce": "^2.24.0"
+  }
+}
